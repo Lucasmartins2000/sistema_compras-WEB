@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ 'Editar Cotação' if cotacao else 'Nova Cotação' }}</h2>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li style="color:red;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post">
+    <label for="id_regsolic">Solicitação</label>
+    <select id="id_regsolic" name="ID_REGSOLIC" required>
+        <option value="">Selecione uma solicitação</option>
+        {% for reg in solicitacoes %}
+        <option value="{{ reg[0] }}"
+            {% if cotacao and reg[0] == cotacao['ID_REGSOLIC'] %}selected{% endif %}>
+            {{ reg[0] }} - Profissional {{ reg[1] }} | Setor {{ reg[2] }} | {{ reg[3] }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="id_itemsolic">Item da Solicitação</label>
+    <select id="id_itemsolic" name="ID_ITEMSOLIC" required>
+        <option value="">Selecione um item</option>
+        {% for item in itens_solic %}
+        <option value="{{ item[0] }}"
+                {% if cotacao and item[0] == cotacao['ID_ITEMSOLIC'] %}selected{% endif %}>
+            Solicitação {{ item[2] }} - {{ item[1] }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <label for="id_fornecedor">Fornecedor</label>
+    <select id="id_fornecedor" name="ID_FORNECEDOR" required>
+        <option value="">Selecione um item primeiro</option>
+    </select>
+
+    <label for="valorcot">Valor Cotação</label>
+    <input type="text" id="valorcot" name="VALORCOT" required
+           value="{{ cotacao['VALORCOT'] if cotacao else '' }}">
+
+    <label for="observacao">Observação</label>
+    <input type="text" id="observacao" name="OBSERVACAO"
+           value="{{ cotacao['OBSERVACAO'] if cotacao else '' }}">
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+
+<script>
+  document.getElementById('id_itemsolic').addEventListener('change', function () {
+    const idItemSolic = this.value;
+    const fornecedorSelect = document.getElementById('id_fornecedor');
+    fornecedorSelect.innerHTML = '<option value="">Carregando...</option>';
+
+    if (!idItemSolic) {
+      fornecedorSelect.innerHTML = '<option value="">Selecione um item primeiro</option>';
+      return;
+    }
+
+    // ✅ Caminho corrigido com /cotacao/
+    fetch(`/cotacao/produto-por-itemsolic/${idItemSolic}`)
+      .then(response => response.json())
+      .then(data => {
+        const idProduto = data.id_produto;
+
+        if (!idProduto) {
+          fornecedorSelect.innerHTML = '<option value="">Produto não encontrado</option>';
+          return;
+        }
+
+        fetch(`/fornecedores-por-produto/${idProduto}`)
+          .then(response => response.json())
+          .then(data => {
+            fornecedorSelect.innerHTML = '';
+            if (data.length === 0) {
+              fornecedorSelect.innerHTML = '<option value="">Nenhum fornecedor vinculado</option>';
+            } else {
+              data.forEach(([id, nome]) => {
+                const opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = `${id} - ${nome}`;
+                fornecedorSelect.appendChild(opt);
+              });
+            }
+          })
+          .catch(error => {
+            fornecedorSelect.innerHTML = '<option value="">Erro ao carregar fornecedores</option>';
+            console.error(error);
+          });
+      })
+      .catch(error => {
+        fornecedorSelect.innerHTML = '<option value="">Erro ao obter produto</option>';
+        console.error(error);
+      });
+  });
+</script>
+{% endblock %}

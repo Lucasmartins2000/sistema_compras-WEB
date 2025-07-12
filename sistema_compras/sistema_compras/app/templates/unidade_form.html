@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Cadastrar Unidade de Medida</h2>
+
+<form method="post">
+    <label for="descricao">Descrição</label>
+    <input type="text" id="descricao" name="DESCRICAO" required>
+
+    <label for="uniabrev">Abreviação</label>
+    <input type="text" id="uniabrev" name="UNIABREV" maxlength="3" required>
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

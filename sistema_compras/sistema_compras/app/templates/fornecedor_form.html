@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ 'Editar Fornecedor' if fornecedor else 'Novo Fornecedor' }}</h2>
+
+<form method="post">
+    <label>Tipo Pessoa</label>
+    <select name="TIPOPESSOA" required>
+        <option value="">Selecione...</option>
+        <option value="F" {% if fornecedor and fornecedor.TIPOPESSOA == 'F' %}selected{% endif %}>Física</option>
+        <option value="J" {% if fornecedor and fornecedor.TIPOPESSOA == 'J' %}selected{% endif %}>Jurídica</option>
+    </select>
+
+    <!-- Pessoa Física -->
+    <div id="fisica">
+        <label>CPF</label>
+        <input type="text" name="CPFPESSOA" value="{{ fornecedor.CPFPESSOA if fornecedor else '' }}">
+
+        <label>Nome</label>
+        <input type="text" name="NOMEPESSOA" value="{{ fornecedor.NOMEPESSOA if fornecedor else '' }}">
+
+        <label>Data Nascimento</label>
+        <input type="date" name="DATANASCPES" value="{{ fornecedor.DATANASCPES if fornecedor else '' }}">
+
+        <label>Sexo</label>
+        <select name="SEXOPESSOA">
+            <option value="">Selecione...</option>
+            <option value="M" {% if fornecedor and fornecedor.SEXOPESSOA == 'M' %}selected{% endif %}>Masculino</option>
+            <option value="F" {% if fornecedor and fornecedor.SEXOPESSOA == 'F' %}selected{% endif %}>Feminino</option>
+        </select>
+    </div>
+
+    <!-- Pessoa Jurídica -->
+    <div id="juridica">
+        <label>CNPJ</label>
+        <input type="text" name="CNPJ" value="{{ fornecedor.CNPJ if fornecedor else '' }}">
+
+        <label>Razão Social</label>
+        <input type="text" name="RAZSOCIAL" value="{{ fornecedor.RAZSOCIAL if fornecedor else '' }}">
+
+        <label>Nome Fantasia</label>
+        <input type="text" name="NOMEFAN" value="{{ fornecedor.NOMEFAN if fornecedor else '' }}">
+
+        <label>CNAE</label>
+        <input type="text" name="CNAE" value="{{ fornecedor.CNAE if fornecedor else '' }}">
+    </div>
+
+    <!-- Fornecedor -->
+    <label>Representante</label>
+    <input type="text" name="REPRESENT" value="{{ fornecedor.REPRESENT if fornecedor else '' }}">
+
+    <label>Contato</label>
+    <input type="text" name="CONTREPRE" value="{{ fornecedor.CONTREPRE if fornecedor else '' }}">
+
+    <label>Descrição</label>
+    <input type="text" name="DECRICAO" value="{{ fornecedor.DECRICAO if fornecedor else '' }}">
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+
+<a href="/fornecedor/" class="btn">Voltar</a>
+
+<script>
+    // Exibir ou ocultar os campos conforme o tipo
+    document.addEventListener('DOMContentLoaded', function() {
+        const tipoSelect = document.querySelector('select[name="TIPOPESSOA"]');
+        const fisicaDiv = document.getElementById('fisica');
+        const juridicaDiv = document.getElementById('juridica');
+
+        function toggleCampos() {
+            if (tipoSelect.value === 'F') {
+                fisicaDiv.style.display = 'block';
+                juridicaDiv.style.display = 'none';
+            } else if (tipoSelect.value === 'J') {
+                fisicaDiv.style.display = 'none';
+                juridicaDiv.style.display = 'block';
+            } else {
+                fisicaDiv.style.display = 'none';
+                juridicaDiv.style.display = 'none';
+            }
+        }
+
+        tipoSelect.addEventListener('change', toggleCampos);
+        toggleCampos(); // inicializa
+    });
+</script>
+{% endblock %}

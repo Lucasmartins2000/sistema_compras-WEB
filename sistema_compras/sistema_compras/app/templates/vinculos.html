@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Vínculos de Produto e Fornecedor</h2>
+
+  {% if vinculos %}
+    <table border="1" cellpadding="6" cellspacing="0">
+      <thead>
+        <tr>
+          <th>ID Produto</th>
+          <th>Nome do Produto</th>
+          <th>ID Fornecedor</th>
+          <th>Representante</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in vinculos %}
+        <tr>
+          <td>{{ v[0] }}</td>
+          <td>{{ v[1] }}</td>
+          <td>{{ v[2] }}</td>
+          <td>{{ v[3] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p style="color:gray;">Nenhum vínculo encontrado.</p>
+  {% endif %}
+
+  <a href="/vincular-produto-fornecedor" class="btn">Vincular Produto</a>
+  <a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Gestão de Cotações</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID Cotação</th>
+            <th>Produto</th>
+            <th>ID Solicitação</th>
+            <th>Fornecedor</th>
+            <th>Valor</th>
+            <th>Observação</th>
+            <th>Status</th>
+            <th>Motivo Negado</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in cotacoes %}
+        <tr>
+            <td>{{ c.IDCOTACAO or '--' }}</td>
+            <td>{{ c.NOME_PRODUTO or '---' }}</td>
+            <td>{{ c.ID_REGSOLIC or '--' }}</td>
+            <td>{{ c.NOME_FORNECEDOR or '---' }}</td>
+            <td>R$ {{ "%.2f"|format(c.VALORCOT or 0) }}</td>
+            <td>{{ c.OBSERVACAO or '' }}</td>
+            <td>{{ c.STATUSCOT or '---' }}</td>
+            <td>{{ c.MOTNEG or '' }}</td>
+            <td>
+                {% if c.STATUSCOT == 'PENDENTE' %}
+                    <a href="{{ url_for('cotacao.aprovar', id=c.IDCOTACAO) }}"
+                       class="btn" style="padding:4px 8px; font-size:0.85em;">Aprovar</a>
+                    <a href="{{ url_for('cotacao.negado_form', id=c.IDCOTACAO) }}"
+                       class="btn" style="background:#dc3545; color:white; padding:4px 8px; font-size:0.85em;">Negar</a>
+                {% else %}
+                    <span style="font-size:0.85em; color:gray;">Finalizada</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

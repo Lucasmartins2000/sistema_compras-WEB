@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Registrar Solicitação</h2>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li style="color:red;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post">
+    <label for="id_setor">Setor</label>
+    <select id="id_setor" name="ID_SETOR" required>
+        <option value="">Selecione um setor</option>
+        {% for s in setores %}
+        <option value="{{ s[0] }}">{{ s[0] }} - {{ s[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="id_profissio">Profissional</label>
+    <select id="id_profissio" name="ID_PROFISSIO" required>
+        <option value="">Selecione um setor primeiro</option>
+    </select>
+
+    <label for="datasolic">Data da Solicitação</label>
+    <input type="date" id="datasolic" name="DATASOLIC" required>
+
+    <button type="submit" class="btn">Registrar Solicitação</button>
+</form>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+
+<script>
+  document.getElementById('id_setor').addEventListener('change', function () {
+    const idSetor = this.value;
+    const profissionalSelect = document.getElementById('id_profissio');
+    profissionalSelect.innerHTML = '<option value="">Carregando...</option>';
+
+    fetch(`/cotacao/profissionais-por-setor/${idSetor}`)
+      .then(response => response.json())
+      .then(data => {
+        profissionalSelect.innerHTML = '';
+        if (data.length === 0) {
+          profissionalSelect.innerHTML = '<option value="">Nenhum profissional vinculado</option>';
+        } else {
+          data.forEach(([id, nome]) => {
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.textContent = `${id} - ${nome}`;
+            profissionalSelect.appendChild(opt);
+          });
+        }
+      })
+      .catch(error => {
+        profissionalSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+        console.error(error);
+      });
+  });
+</script>
+{% endblock %}

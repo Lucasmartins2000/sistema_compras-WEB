@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ 'Editar Ordem de Compra' if ordem else 'Nova Ordem de Compra' }}</h2>
+
+<form method="post">
+    <label>Status</label>
+    <input type="text" name="STATUSORD" 
+           value="{{ ordem.STATUSORD if ordem else 'PEND' }}" 
+           readonly style="background-color: #e9ecef;">
+
+    <label>Valor</label>
+    <input type="text" name="VALOR" required 
+           placeholder="Ex: 1500.00"
+           value="{{ ordem.VALOR if ordem else '' }}">
+
+    <label>Data Prevista</label>
+    <input type="date" name="DATAPREV" required 
+           value="{{ ordem.DATAPREV if ordem else '' }}">
+
+    <label>Data Ordem</label>
+    <input type="date" name="DATAORDEM" required 
+           value="{{ ordem.DATAORDEM if ordem else '' }}">
+
+    <label>Data Entrega</label>
+    <input type="date" name="DATAENTRE" required 
+           value="{{ ordem.DATAENTRE if ordem else '' }}">
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+
+<a href="{{ url_for('ordemcompra.listar') }}" class="btn">Voltar</a>
+{% endblock %}

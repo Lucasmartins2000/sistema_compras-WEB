@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Pessoas Cadastradas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 10%;">ID</th>
+            <th style="width: 10%;">Tipo</th>
+            <th style="width: 40%;">Nome / Razão Social</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in pessoas %}
+        <tr>
+            <td>{{ p.IDPESSOA }}</td>
+            <td>{{ p.TIPOPESSOA }}</td>
+            <td>{{ p.NOMEPESSOA or p.RAZSOCIAL }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/" class="btn" style="margin-top: 12px;">Voltar ao Dashboard</a>
+{% endblock %}

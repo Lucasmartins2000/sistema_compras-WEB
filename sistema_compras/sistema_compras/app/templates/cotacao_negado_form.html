@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Negar Cotação #{{ id_cotacao }}</h2>
+
+<form method="post">
+    <label for="motivo">Motivo da Negação:</label>
+    <input type="text" id="motivo" name="MOTNEG" required
+           style="padding: 10px; border-radius: 6px; width: 100%; border: 1px solid #ccc;">
+
+    <button type="submit" class="btn">Confirmar Negação</button>
+    <a href="{{ url_for('cotacao.listar') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

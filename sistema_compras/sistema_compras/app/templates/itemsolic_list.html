@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Itens de Solicitação</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ID ItemSolic</th>
+            <th>ID Solicitação</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in itens %}
+        <tr>
+            <td>{{ item.IDITEMSOLIC }}</td>
+            <td>{{ item.ID_REGSOLIC }}</td>
+            <td>{{ item.DESCRICAO }}</td>
+            <td>{{ item.QNTD }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('itemsolic.novo_itemsolic') }}" class="btn">+ Novo Item</a>
+<a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

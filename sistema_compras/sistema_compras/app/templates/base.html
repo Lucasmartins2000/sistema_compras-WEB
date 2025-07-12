@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto Compras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Importante para responsivo -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(40, 167, 69, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            font-size: 2em;
+            font-weight: 700;
+        }
+        main {
+            max-width: 1200px; /* Aumenta o limite */
+            margin: 35px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            overflow-x: auto; /* Permite scroll horizontal em tabelas se necessário */
+        }
+        h2 {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 6px 3px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #218838 0%, #1ea370 100%);
+            transform: translateY(-2px);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        label {
+            font-weight: 600;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            min-width: 0; /* para inputs dentro de flex não estourarem */
+        }
+        input:focus, select:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+            outline: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto; /* permite ajuste mais fluido */
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            word-wrap: break-word;
+        }
+        th {
+            background: #f1f3f5;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .flash-messages {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: #ffeeba;
+            border: 1px solid #f0ad4e;
+            color: #856404;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        /* Ajuste para permitir scroll horizontal no main se precisar */
+        main::-webkit-scrollbar {
+            height: 8px;
+        }
+        main::-webkit-scrollbar-thumb {
+            background: rgba(40, 167, 69, 0.5);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projeto Compras</h1>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for msg in messages %}
+                <div>{{ msg }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

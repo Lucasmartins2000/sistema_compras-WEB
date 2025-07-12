@@ -1,0 +1,10 @@
+fornecedores = []
+produtos = []
+ordens_compra = []
+itens_ordem = []
+cotacoes = []
+id_cotacao_counter = 1
+id_fornecedor_counter = 1
+id_produto_counter = 1
+id_ordemcompra_counter = 1
+id_itemordcomp_counter = 1

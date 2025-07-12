@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Vincular Produto a Fornecedor</h2>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flash-messages">
+        {% for message in messages %}
+          <li style="color:red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+    <label for="id_produto">Produto:</label>
+    {% if produtos %}
+      <select name="id_produto" id="id_produto" required>
+        {% for produto in produtos %}
+          <option value="{{ produto[0] }}">{{ produto[1] }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      <p style="color:red;">Nenhum produto cadastrado.</p>
+    {% endif %}
+
+    <label for="id_fornecedor">Representante do Fornecedor:</label>
+    {% if fornecedores %}
+      <select name="id_fornecedor" id="id_fornecedor" required>
+        {% for fornecedor in fornecedores %}
+          <option value="{{ fornecedor[0] }}">{{ fornecedor[1] }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      <p style="color:red;">Nenhum fornecedor cadastrado.</p>
+    {% endif %}
+
+    {% if produtos and fornecedores %}
+      <button type="submit" class="btn">Vincular</button>
+    {% else %}
+      <p style="color:gray;">Cadastre um produto e um fornecedor para habilitar o vínculo.</p>
+    {% endif %}
+  </form>
+
+  <a href="/vinculos" class="btn">Ver Vínculos</a>
+  <a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

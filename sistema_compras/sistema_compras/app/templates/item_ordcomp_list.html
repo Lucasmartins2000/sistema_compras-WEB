@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Itens da Ordem</h2>
+
+<a href="/item_ordcomp/novo" class="btn">Adicionar Novo Item</a>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 8%;">ID</th>
+            <th style="width: 15%;">ID Ordem</th>
+            <th style="width: 15%;">ID Produto</th>
+            <th style="width: 15%;">Quantidade</th>
+            <th style="width: 20%;">Valor</th>
+            <th style="width: 20%;">Data Vencimento</th>
+            <th style="width: 7%;">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in itens %}
+        <tr>
+            <td>{{ i.IDITEMORD }}</td>
+            <td>{{ i.ID_ORDCOMP }}</td>
+            <td>{{ i.ID_PRODUTO }}</td>
+            <td>{{ i.QNTD }}</td>
+            <td>{{ i.VALOR }}</td>
+            <td>{{ i.DATAVENC }}</td>
+            <td>
+                <a href="/item_ordcomp/editar/{{ i.IDITEMORD }}" class="btn" style="padding: 4px 8px; font-size: 0.85em;">Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Novo Item da Ordem</h2>
+<form method="post">
+    <label>ID Ordem</label>
+    <input type="text" name="ID_ORDCOMP" required>
+
+    <label>ID Produto</label>
+    <input type="text" name="ID_PRODUTO" required>
+
+    <label>Quantidade</label>
+    <input type="text" name="QNTD" required>
+
+    <label>Valor</label>
+    <input type="text" name="VALOR" required>
+
+    <label>Data Vencimento</label>
+    <input type="date" name="DATAVENC" required>
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+<a href="/item_ordcomp/" class="btn">Voltar</a>
+{% endblock %}

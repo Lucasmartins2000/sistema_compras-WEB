@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Novo Item de Solicitação</h2>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li style="color:red;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post">
+    <label for="id_regsolic">Solicitação:</label>
+    <select id="id_regsolic" name="ID_REGSOLIC" required>
+        <option value="">Selecione...</option>
+        {% for r in regsolics %}
+            <option value="{{ r[0] }}">{{ r[0] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="id_produto">Produto:</label>
+    <select id="id_produto" name="ID_PRODUTO" required>
+        <option value="">Selecione...</option>
+        {% for p in produtos %}
+            <option value="{{ p[0] }}">{{ p[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="qntd">Quantidade:</label>
+    <input type="number" id="qntd" name="QNTD" min="1" required>
+
+    <button type="submit" class="btn">Salvar</button>
+</form>
+
+<a href="/" class="btn">Voltar</a>
+{% endblock %}

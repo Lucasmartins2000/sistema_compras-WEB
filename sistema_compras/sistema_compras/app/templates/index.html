@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Menu Principal</h2>
+<div style="text-align: center;">
+    <a href="/fornecedor/" class="btn">🚚Fornecedores</a>
+    <a href="/produto/" class="btn">📦Produtos</a>
+    
+
+        </div>
+     <div style="text-align: center; margin: 20px 0;">
+      <a href="/solicitacao/novo" class="btn">➕Registrar Solicitação</a>
+      <a href="/cotacao/novo" class="btn">➕Cadastrar Nova Cotação</a>
+      <a href="{{ url_for('itemsolic.novo_itemsolic') }}"class="btn">➕ Novo Item de Solicitação</a>
+      <a href="{{ url_for('unidade_medida.novo') }}" class="btn">➕Cadastrar Unidade de Medida</a>
+      <a href="/ordemcompra/" class="btn">➕🧾Ordens de Compra</a>
+</div>
+    <div style="text-align: center; margin: 20px 0;">
+        <a href="{{ url_for('itemsolic.listar_itemsolic') }}"class="btn">📋 Listar Itens de Solicitação</a>
+        <a href="/cotacao/" class="btn">📋Gerenciar Cotações</a>
+        <a href="/vincular-produto-fornecedor" class="btn">🔗Vincular Produto/Fornecedor</a>
+        <a href="/item_ordcomp/" class="btn">🧾Itens de Ordem</a>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Ordens de Compra</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th style="width: 5%;">ID</th>
+            <th style="width: 10%;">Status</th>
+            <th style="width: 10%;">Valor</th>
+            <th style="width: 12%;">Data Prevista</th>
+            <th style="width: 12%;">Data Ordem</th>
+            <th style="width: 12%;">Data Entrega</th>
+            <th style="width: 25%;">Itens</th>
+            <th style="width: 14%;">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in ordens_itens %}
+        <tr
+            {% if obj.ordem.STATUSORD == 'PEND' %}
+                style="background: #d1ecf1;"
+            {% elif obj.ordem.STATUSORD == 'ANDA' %}
+                style="background: #fff3cd;"
+            {% elif obj.ordem.STATUSORD == 'CONC' %}
+                style="background: #d4edda;"
+            {% endif %}
+        >
+            <td>{{ obj.ordem.IDORDCOMP }}</td>
+            <td>{{ obj.ordem.STATUSORD }}</td>
+            <td>R$ {{ '%.2f'|format(obj.ordem.VALOR|float) }}</td>
+            <td>{{ obj.ordem.DATAPREV }}</td>
+            <td>{{ obj.ordem.DATAORDEM }}</td>
+            <td>{{ obj.ordem.DATAENTRE }}</td>
+            <td>
+                {% if obj.itens %}
+                <ul style="padding-left: 18px; margin: 0;">
+                    {% for item in obj.itens %}
+                    <li>{{ item.NOME_PRODUTO }} - R$ {{ '%.2f'|format(item.VALORCOT|float) }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <em>Sem itens</em>
+                {% endif %}
+            </td>
+            <td style="white-space: nowrap;">
+                <a href="{{ url_for('ordemcompra.set_status', id=obj.ordem.IDORDCOMP, status='PEND') }}"
+                   class="btn btn-pendente {% if obj.ordem.STATUSORD == 'PEND' %}disabled{% endif %}">
+                   Pendente
+                </a>
+                <a href="{{ url_for('ordemcompra.set_status', id=obj.ordem.IDORDCOMP, status='ANDA') }}"
+                   class="btn btn-andamento {% if obj.ordem.STATUSORD == 'ANDA' %}disabled{% endif %}">
+                   Andamento
+                </a>
+                <a href="{{ url_for('ordemcompra.set_status', id=obj.ordem.IDORDCOMP, status='CONC') }}"
+                   class="btn btn-concluir {% if obj.ordem.STATUSORD == 'CONC' %}disabled{% endif %}">
+                   Concluir
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="/" class="btn">Voltar ao Dashboard</a>
+{% endblock %}
